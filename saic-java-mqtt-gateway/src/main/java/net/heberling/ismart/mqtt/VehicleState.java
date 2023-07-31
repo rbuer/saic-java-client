@@ -515,44 +515,30 @@ public class VehicleState {
       case OFF:
         return false;
       case FORCE:
-        LOGGER.info("Refreshing due to force mode");
         setRefreshMode(previousRefreshMode);
         return true;
       case PERIODIC:
       default:
         if (previousRefreshMode == FORCE) {
-          LOGGER.info("Refreshing due to previous force mode");
           previousRefreshMode = null;
           return true;
         }
         if (lastSuccessfulRefresh == null) {
-          LOGGER.info("Refreshing due to unset last successful refresh");
           markSuccessfulRefresh();
           return true;
         }
         if (lastCarActivity.isAfter(lastSuccessfulRefresh)) {
-          LOGGER.info("Refreshing due to last car activity after last successful refresh");
           return true;
         }
         if (hvBatteryActive
             || lastCarShutdown
                 .plus(refreshPeriodAfterShutdown, ChronoUnit.SECONDS)
                 .isAfter(OffsetDateTime.now(getClock()))) {
-          final boolean ret =
-              lastSuccessfulRefresh.isBefore(
-                  OffsetDateTime.now(getClock()).minus(refreshPeriodActive, ChronoUnit.SECONDS));
-          if (ret) {
-            LOGGER.info("Refreshing due to active car period elapsed");
-          }
-          return ret;
+          return lastSuccessfulRefresh.isBefore(
+              OffsetDateTime.now(getClock()).minus(refreshPeriodActive, ChronoUnit.SECONDS));
         } else {
-          final boolean ret =
-              lastSuccessfulRefresh.isBefore(
-                  OffsetDateTime.now(getClock()).minus(refreshPeriodInactive, ChronoUnit.SECONDS));
-          if (ret) {
-            LOGGER.info("Refreshing due to in-active car period elapsed");
-          }
-          return ret;
+          return lastSuccessfulRefresh.isBefore(
+              OffsetDateTime.now(getClock()).minus(refreshPeriodInactive, ChronoUnit.SECONDS));
         }
     }
   }
@@ -560,13 +546,6 @@ public class VehicleState {
   public void setHVBatteryActive(boolean hvBatteryActive) throws MqttException {
     if (!hvBatteryActive && this.hvBatteryActive) {
       this.lastCarShutdown = OffsetDateTime.now(getClock());
-      LOGGER.info("Car shutdown detected: {}", lastCarShutdown);
-
-      MqttMessage msg =
-          new MqttMessage(lastCarShutdown.toString().getBytes(StandardCharsets.UTF_8));
-      msg.setQos(0);
-      msg.setRetained(true);
-      client.publish(mqttVINPrefix + "/" + REFRESH_LAST_CAR_SHUTDOWN, msg);
     }
     this.hvBatteryActive = hvBatteryActive;
 
@@ -644,11 +623,9 @@ public class VehicleState {
           throw new MqttGatewayException("Error publishing message: " + mqttMessage, e);
         }
       }
-      this.previousRefreshMode = this.refreshMode;
-      this.refreshMode = refreshMode;
-    } else {
-      LOGGER.info("Keeping refresh mode {}", refreshMode.getStringValue());
     }
+    this.previousRefreshMode = this.refreshMode;
+    this.refreshMode = refreshMode;
   }
 
   public RefreshMode getRefreshMode() {
@@ -657,16 +634,6 @@ public class VehicleState {
 
   public void markSuccessfulRefresh() {
     this.lastSuccessfulRefresh = OffsetDateTime.now(getClock());
-    LOGGER.info("Refreshing vehicle status succeeded...");
-    LOGGER.info("Last successful refresh: {}", lastSuccessfulRefresh);
-    MqttMessage mqttMessage =
-        new MqttMessage(lastSuccessfulRefresh.toString().getBytes(StandardCharsets.UTF_8));
-    try {
-      mqttMessage.setRetained(true);
-      this.client.publish(this.mqttVINPrefix + "/" + REFRESH_LAST_SUCCESSFULL_REFRESH, mqttMessage);
-    } catch (MqttException e) {
-      throw new MqttGatewayException("Error publishing message: " + mqttMessage, e);
-    }
   }
 
   public void setRefreshPeriodAfterShutdown(long refreshPeriodAfterShutdown) {
@@ -695,7 +662,7 @@ public class VehicleState {
 
   public void configureMissing() {
     if (refreshPeriodActive == null) {
-      setRefreshPeriodActive(30L);
+      setRefreshPeriodActive(60L);
     }
     if (refreshPeriodInactive == null) {
       setRefreshPeriodInactive(86400L);

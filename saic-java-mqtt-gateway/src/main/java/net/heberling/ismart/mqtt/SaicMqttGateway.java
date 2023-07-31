@@ -119,6 +119,13 @@ public class SaicMqttGateway implements Callable<Integer> {
   private char[] mqttPassword;
 
   @CommandLine.Option(
+      names = {"--mqtt-prefix"},
+      required = true,
+      description = {"the prefix for mqtttopics.", "Environment Variable: MQTT_PREFIX"},
+      defaultValue = "${env:MQTT_PREFIX:-${config.mqtt.prefix}}")
+  private String mqttPrefix;
+
+  @CommandLine.Option(
       names = {"-s", "--saic-uri"},
       description = {
         "The SAIC uri.",
@@ -196,7 +203,7 @@ public class SaicMqttGateway implements Callable<Integer> {
       }
       client.connect(options);
 
-      var mqttAccountPrefix = "saic/" + saicUser;
+      var mqttAccountPrefix = "MG/" + mqttPrefix;
 
       client.setCallback(
           new MqttCallback() {
