@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  ismart_mqtt:
+    image: rbuer/saic-java-mqtt-gateway:0.0.0-SNAPSHOT
+#    image: saicismartapi/saic-java-mqtt-gateway:latest
+    environment:
+      SAIC_USER: ${SAIC_USER}
+      SAIC_PASSWORD: ${SAIC_PASSWORD}
+      MQTT_URI: ${MQTT_URI}
+      MQTT_USER: ${MQTT_USER}
+      MQTT_PASSWORD: ${MQTT_PASSWORD}
+      MQTT_PREFIX: ${MQTT_PREFIX}
+      #      ABRP_USER_TOKEN: ${ABRP_USER_TOKEN}
+    restart: on-failure

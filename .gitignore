@@ -122,3 +122,4 @@ Temporary Items
 # Extracted classes from ismart.apk
 classes-dex2jar.jar
 classes2-dex2jar.jar
+/.secrets
