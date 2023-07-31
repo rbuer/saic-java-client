@@ -22,7 +22,7 @@ Implementation of the SAIC API in Java.
 Clone the project
 
 ```bash
-git clone git@github.com:SAIC-iSmart-API/saic-java-client.git
+git clone git@github.com:rbuer/saic-java-client.git
 ```
 
 Go to the project directory
