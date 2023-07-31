@@ -8,7 +8,7 @@ Implementation of the SAIC API in Java.
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-![Maven Central](https://img.shields.io/maven-central/v/io.github.saic-ismart-api/saic-ismart-api-parent)
+![Maven Central](https://img.shields.io/maven-central/v/io.github.rbuer/saic-ismart-api-parent)
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/SAIC-iSmart-API/saic-java-client/maven.yml)
 

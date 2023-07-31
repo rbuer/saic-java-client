@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.github.saic-ismart-api</groupId>
+    <groupId>io.github.rbuer</groupId>
     <artifactId>saic-ismart-api-parent</artifactId>
     <version>0.0.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>io.github.saic-ismart-api</groupId>
+  <groupId>io.github.rbuer</groupId>
   <artifactId>saic-ismart-mqtt-gateway</artifactId>
   <version>0.0.0-SNAPSHOT</version>
 
@@ -27,7 +27,7 @@
     <dist.oci.additional-tags>${dist.oci.tag}</dist.oci.additional-tags>
 
     <!-- docker registry, complete path up to the leading / before the image name-->
-    <dist.oci.registry>tisoft/</dist.oci.registry>
+    <dist.oci.registry>rbuer/</dist.oci.registry>
 
     <!-- complete image name inclufing regustry and tag -->
     <dist.oci.image>${dist.oci.registry}${dist.oci.name}:${dist.oci.tag}</dist.oci.image>
@@ -72,12 +72,12 @@
       <version>1.6</version>
     </dependency>
     <dependency>
-      <groupId>io.github.saic-ismart-api</groupId>
+      <groupId>io.github.rbuer</groupId>
       <artifactId>saic-ismart-cli</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.github.saic-ismart-api</groupId>
+      <groupId>io.github.rbuer</groupId>
       <artifactId>saic-ismart-client</artifactId>
       <version>${project.version}</version>
     </dependency>

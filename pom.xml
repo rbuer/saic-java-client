@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.github.saic-ismart-api</groupId>
+  <groupId>io.github.rbuer</groupId>
   <artifactId>saic-ismart-api-parent</artifactId>
   <version>0.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -13,6 +13,7 @@
   <licenses>
     <license>
       <name>MIT License</name>
+      <url>https://opensource.org/license/mit/</url>
     </license>
   </licenses>
   <developers>
@@ -20,6 +21,11 @@
       <id>tisoft</id>
       <name>Markus Heberling</name>
       <url>https://markus.heberling.net</url>
+    </developer>
+    <developer>
+      <id>rbuer</id>
+      <name>Rene Büchner</name>
+      <url>https://github.com/rbuer</url>
     </developer>
   </developers>
   <modules>
@@ -30,8 +36,8 @@
     <module>saic-java-mqtt-gateway</module>
   </modules>
   <scm>
-    <connection>scm:git:git@github.com:SAIC-iSmart-API/saic-java-client.git</connection>
-    <url>https://github.com/SAIC-iSmart-API/saic-java-client</url>
+    <connection>scm:git:git@github.com:rbuer/saic-java-client.git</connection>
+    <url>https://github.com/rbuer/saic-java-client</url>
   </scm>
   <distributionManagement>
     <repository>
@@ -50,7 +56,7 @@
     <!-- Use the same timestamp for all files, will be set to the commit timestamp in CI to support reproducible builds -->
     <project.build.outputTimestamp>${maven.build.timestamp}</project.build.outputTimestamp>
 
-    <github.repository>tisoft</github.repository>
+    <github.repository>rbuer</github.repository>
     <altReleaseDeploymentRepository>github::https://maven.pkg.github.com/${github.repository}</altReleaseDeploymentRepository>
     <altSnapshotDeploymentRepository>github::https://maven.pkg.github.com/${github.repository}</altSnapshotDeploymentRepository>
 
