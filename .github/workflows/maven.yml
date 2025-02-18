@@ -28,24 +28,24 @@ jobs:
       DOCKERHUB_ORGANIZATION: ${{ secrets.DOCKERHUB_ORGANIZATION == null && secrets.DOCKERHUB_USERNAME || secrets.DOCKERHUB_ORGANIZATION }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Install tools from asdf config
-        uses: asdf-vm/actions/install@v2
+        uses: asdf-vm/actions/install@v3
       - name: set java home
         run: echo "JAVA_HOME=$(dirname $( cd -P "$( dirname "$(asdf which java)" )" && pwd ))" >> $GITHUB_ENV
       - id: lowercase-repository-owner
         name: lowercase repository owner
-        uses: ASzc/change-string-case-action@v5
+        uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ github.repository_owner }}
-      - uses: s4u/maven-settings-action@v2.8.0
+      - uses: s4u/maven-settings-action@v3.1.0
         if: env.DOCKERHUB_USERNAME == null
         with:
           servers: '[{"id": "ossrh", "username": "${env.OSSRH_USERNAME}", "password": "${env.OSSRH_PASSWORD}"},
                      {"id": "ghcr.io", "username": "${env.GITHUB_ACTOR}", "password": "${env.GITHUB_TOKEN}"}]'
-      - uses: s4u/maven-settings-action@v2.8.0
+      - uses: s4u/maven-settings-action@v3.1.0
         if: env.DOCKERHUB_USERNAME != null
         with:
           servers: '[{"id": "ossrh", "username": "${env.OSSRH_USERNAME}", "password": "${env.OSSRH_PASSWORD}"},
@@ -65,12 +65,12 @@ jobs:
       - name: Extract release notes
         if: github.ref_name == 'main' || github.ref_type == 'tag'
         id: extract-release-notes
-        uses: ffurrer2/extract-release-notes@v1
+        uses: ffurrer2/extract-release-notes@v2
         with:
           prerelease: ${{ github.ref_type != 'tag' }}
       - name: Release
         if: github.ref_name == 'main' || github.ref_type == 'tag'
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
           files: |
